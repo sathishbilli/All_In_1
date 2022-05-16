@@ -303,4 +303,4 @@ class all_in_1:
 
 # data=pd.read_csv('C:\\Users\\sathi\Downloads\\Admission_Predict.csv')
 # out='Chance of Admit'
-# a=all_in_1(data,out,visualize=True)
+# a=all_in_1(data,out,visualize=True
