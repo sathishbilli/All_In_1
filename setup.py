@@ -6,7 +6,7 @@ USERNAME="sathishbilli"
 PROJECT_NAME="All_In_1"
 setuptools.setup(
     name=f"{PROJECT_NAME}-{USERNAME}",
-    version="0.0.1",
+    version="0.0.2",
     author=f"{USERNAME}",
     author_email="sathishmahi398@gmail.com",
     description="this is a basic function to machine learning",
