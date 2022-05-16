@@ -3,13 +3,13 @@ import setuptools
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 USERNAME="sathishbilli"
-PROJECT_NAME="onenueron"
+PROJECT_NAME="all_in_1"
 setuptools.setup(
     name=f"{PROJECT_NAME}-{USERNAME}",
-    version="0.0.3",
+    version="0.0.1",
     author=f"{USERNAME}",
     author_email="sathishmahi398@gmail.com",
-    description="this a peceptron package",
+    description="this is a basic function to machine learning",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url=f"https://github.com/{USERNAME}/{PROJECT_NAME}",
