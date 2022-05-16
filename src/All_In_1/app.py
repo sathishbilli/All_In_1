@@ -10,6 +10,7 @@ import numpy as np
 
 
 
+
 class all_in_1:
     def __init__(self,dataset,out,visualize=False,standard=False,stats=False,future_sel=False,outlayer_removel=False,multicol=False,remove_null=False):
         self.dataset=dataset
@@ -29,7 +30,7 @@ class all_in_1:
             self.multi_col1(dataset,out)
             
         if self.out==True:
-            self.find_outlayer(dataset)
+            self.find_outlayer(dataset,out)
         if remove_null==True:
             self.remove_nan_value(dataset,out)
     def stats_data(self,dataset,out):
@@ -121,7 +122,7 @@ class all_in_1:
         except Exception as e:
                   print('error ',e)
      
-    def find_outlayer(self,dataset):
+    def find_outlayer(self,dataset,out):
         
         """ 
         this function find and remove the outlayers in our dataset
@@ -300,3 +301,6 @@ class all_in_1:
         return dataset
 
 
+# data=pd.read_csv('C:\\Users\\sathi\Downloads\\Admission_Predict.csv')
+# out='Chance of Admit'
+# a=all_in_1(data,out,visualize=True)

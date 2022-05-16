@@ -25,8 +25,12 @@ setuptools.setup(
     packages=setuptools.find_packages(where="src"),
     python_requires=">=3.7",
     install_requires=[
+        "matplotlib",
+        "seaborn",
         "numpy",
-        
-        "tqdm"
+        "pandas", 
+        "statsmodels",
+        "sklearn"
+
     ]
 )
