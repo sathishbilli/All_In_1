@@ -1,10 +1,10 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-import matplotlib.pyplot as plt
+
 #from sklearn.linear_model import LinearRegression,Ridge,Lasso,RidgeCV,LassoCV,ElasticNet,ElasticNetCV
 from sklearn.preprocessing import StandardScaler
-from sklearn.model_selection import train_test_split
+
 import numpy as np
 
 
@@ -20,6 +20,7 @@ class all_in_1:
         self.m=multicol
         self.std=standard
         self.s=stats
+        self.f=future_sel
         if self.std==True:
             self.standardtation(dataset,out)
         if self.v==True:
@@ -33,13 +34,14 @@ class all_in_1:
             self.find_outlayer(dataset,out)
         if remove_null==True:
             self.remove_nan_value(dataset,out)
+        if self.f==True:
+            self.featue_selection(dataset,out)
     def stats_data(self,dataset,out):
         
         print('our dataset Stats Analysis :')
         try:
-            
-            
-        
+            print('our datasets basic informations ')
+            print()
             print(dataset.describe())
 
             print('---'*20)
@@ -102,7 +104,7 @@ class all_in_1:
     def remove_nan_value(self,dataset,out):
       
         li=[dataset._get_numeric_data().columns]
-        print(li)
+        
 
         try:
 
@@ -132,7 +134,7 @@ class all_in_1:
         """
         out_layer_list=[]
         col=dataset.columns
-        ind=[ i for i,j in enumerate(dataset.dtypes) if j=='float64' or 'int64']
+        ind=[ i for i,j in enumerate(dataset.dtypes) if j=='float64' or 'int64' or 'float32' or 'int32']
         col_name=dataset.columns[ind]
         for i in col_name:
             try:
@@ -143,8 +145,8 @@ class all_in_1:
                     iq=q3-q1
                     upper=q3+(1.5*iq)
                     lower=q1-(1.5*iq)
-                    print(i)
-                    print(upper,lower)
+                    
+                    print(f'our datase upper limit : {upper},our datase upper limit : {lower}')
                     for i1,j in enumerate(dataset[i]):
                         if j<upper and j>lower:
                             pass
@@ -171,23 +173,23 @@ class all_in_1:
     def visualize_data(self,d,o):
         
         """ 
-        this function removivisualize in our dataset to better undestanding in our dataset
+        this function visualize in our dataset to better undestanding to our dataset
         
         """
         inp=input('if you want to save all the plots y---1 or n---0')
         try:
             if inp=='1':
-                inp1=input('enter path')
+                inp1=input('enter path ')
                   
         except Exception as e:
                   print('enter 0 or 1 ')
         
-        int_col,object_col=[],[]
+        # int_col,object_col=[],[]
         cat_col,num_col=[],[]
 
         df=d
         print(type(df))
-        out_come=o
+        
         col=d.columns
         col=d.columns
         for i in range(len(col)):
@@ -199,17 +201,19 @@ class all_in_1:
 
         for i in range(len(num_col)):
             
-            
-            print(num_col)
+            print(f'{num_col[i]} vs {o}')
+            plt.xlabel(num_col[i])
+            plt.xlabel(o)
             plt.scatter(x=num_col[i],y=o,data=d)
             plt.show()
             print('--'*20)
-            try:
+            if inp1!='':
+                try:
+                    
+                    plt.savefig(inp1+num_col[i]+'_vs_'+o+'.png')
                 
-                plt.savefig(inp1+num_col[i]+'_vs_'+o+'.png')
-            
-            except Exception as e:
-                print('please enter valid path ',e)
+                except Exception as e:
+                    print('please enter valid path ',e)
                             
         
         for i in range(len(cat_col)):
@@ -219,10 +223,11 @@ class all_in_1:
             sns.barplot(x=cat_col[i],y=o,data=d)
             plt.show()
             print('--'*20)
-            try:
-                plt.savefig(inp1+cat_col[i]+'_vs_'+o+'.png')
-            except Exception as e:
-                print('please enter valid path ',e)
+            if inp1!='':
+                try:
+                    plt.savefig(inp1+cat_col[i]+'_vs_'+o+'.png')
+                except Exception as e:
+                    print('please enter valid path ',e)
 
         inp=input('you want hist yes--1  no--0')
         if inp=='1':
@@ -237,7 +242,7 @@ class all_in_1:
         """
         this function find best feature to our dataset
         
-        this function used in corelation compaison method used
+        this function used in corelation comparison method used
         
         if our dataset feature < 35% to correlation in output data remove the that paticular feature
         
@@ -246,14 +251,17 @@ class all_in_1:
         cor=dataset.corr()
         ind=np.where(cor[out]<0.35)
         a=cor.iloc[ind].index
-        print('this columns lower contribute our out come ' ,a)
+        print('this columns lower contribute our out come ' )
+        print()
+        print(a)
         inp=input('if you want to remove columns y--1 or n--0')
         if inp=='1':
             dataset.drop(columns=a,inplace=True)
+            print('successfully removed the columns')
             return dataset
     def multi_col1(self,dataset,out):
         """
-        this function findind the multicolinearity feature in our datset
+        this function find the multicolinearity feature in our datset
         
         this function used variance_inflation_factor method
         
@@ -262,15 +270,16 @@ class all_in_1:
         from statsmodels.stats.outliers_influence import variance_inflation_factor
         li=dataset._get_numeric_data().columns
         try:
-            print(out)
+            # print(out)
             #data=dataset.drop(out,axis=1)
             final_data=dataset[li]
-            print(final_data)
+            
             x=np.asarray(final_data)
             
             data_vif=[variance_inflation_factor(x,i)for i in range(x.shape[1])]
-            print('our dataset vif val ',data_vif)
+            print('our dataset vif values ')
             print()
+            print(data_vif)
             inp=input('if you want to remove the mlti col feature y --- 1 or n----0 ')
             if inp=='1':
             
@@ -279,7 +288,7 @@ class all_in_1:
                 col_name=dataset.columns[col_ind]
                 print(col_name)
                 dataset.drop(col_name,axis=1,inplace=True)
-                print('our final col in dataset ',dataset.columns)
+                print('our final columns in our dataset ',dataset.columns)
                 return dataset
         except Exception as e:
             print('error mul ',e)
@@ -293,7 +302,7 @@ class all_in_1:
         """
         data=dataset.drop(out,axis=1)
         li=data._get_numeric_data().columns
-        from sklearn.preprocessing import StandardScaler
+        
         scaler=StandardScaler()
         arr=scaler.fit_transform(dataset[li])
         final=pd.DataFrame(data=arr,columns=li)
